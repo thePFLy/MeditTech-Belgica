@@ -1,0 +1,223 @@
+==========================
+FIREWALL
+==========================
+
+--------------------------
+FW01
+--------------------------
+
+--------------------------
+FW02
+--------------------------
+
+==========================
+LAN [10.1.0.0/24]
+==========================
+
+--------------------------
+R1-LAN-01
+--------------------------
+en 
+conf t 
+hostname R1-LAN 
+
+int g0/0
+ip add 10.1.1.2 255.255.255.252
+no shut
+
+int g0/1
+no shut
+
+int g0/2
+no shut
+
+--------------------------
+SW-LAN-01
+--------------------------
+///
+
+--------------------------
+admin-LAN-01
+--------------------------
+# DHCP config for eth0
+auto eth0
+iface eth0 inet dhcp
+	hostname admin-LAN-01
+
+--------------------------
+secretary-LAN-01
+--------------------------
+# DHCP config for eth0
+auto eth0
+iface eth0 inet dhcp
+	hostname secretary-LAN-01
+
+--------------------------
+reception-LAN-01
+--------------------------
+# DHCP config for eth0
+auto eth0
+iface eth0 inet dhcp
+	hostname reception-LAN-01
+
+--------------------------
+SW-LAN-02
+--------------------------
+///
+
+--------------------------
+admin-LAN-02
+--------------------------
+# DHCP config for eth0
+auto eth0
+iface eth0 inet dhcp
+	hostname admin-LAN-02
+
+--------------------------
+secretary-LAN-02
+--------------------------
+# DHCP config for eth0
+auto eth0
+iface eth0 inet dhcp
+	hostname secretary-LAN-02
+
+==========================
+TRUSTED [172.16.0.0/24]
+==========================
+
+--------------------------
+R1-TRUSTED
+--------------------------
+en 
+conf t 
+hostname R1-TRUSTED 
+
+int g0/0
+ip add 172.16.0.2 255.255.255.252
+no shut
+
+int g0/1
+ip add 172.16.0.15 255.255.255.252
+no shut
+
+int g0/2
+ip add 172.16.0.22 255.255.255.252
+no shut
+
+--------------------------
+internFile-TRUSTED
+--------------------------
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 172.16.0.09
+	netmask 255.255.255.248
+	gateway 172.16.0.15
+	up echo nameserver 172.16.0.15 > /etc/resolv.conf
+
+--------------------------
+SW-TRUSTED-01
+--------------------------
+///
+
+--------------------------
+SW-TRUSTED-02
+--------------------------
+///
+
+--------------------------
+DHCP-TRUSTED
+--------------------------
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 172.16.0.17
+	netmask 255.255.255.248
+	gateway 172.16.0.23
+	up echo nameserver  172.16.0.23 > /etc/resolv.conf
+
+--------------------------
+DNS-TRUSTED
+--------------------------
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 172.16.0.18
+	netmask 255.255.255.248
+	gateway 172.16.0.23
+	up echo nameserver  172.16.0.23 > /etc/resolv.conf
+
+--------------------------
+WEB-TRUSTED
+--------------------------
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 172.16.0.19
+	netmask 255.255.255.248
+	gateway 172.16.0.23
+	up echo nameserver  172.16.0.23 > /etc/resolv.conf
+
+==========================
+WAN [192.168.1.0/24]
+==========================
+
+--------------------------
+SW-EXT
+--------------------------
+///
+
+--------------------------
+externFile-DMZ
+--------------------------
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 192.168.40.2
+	netmask 255.255.255.0
+	gateway 192.168.40.254
+	up echo nameserver 192.168.40.254 > /etc/resolv.conf
+
+--------------------------
+Wifi-DMZ
+--------------------------
+en 
+conf t 
+hostname WIFI-DMZ 
+
+int g0/0
+ip add 192.168.50.2 255.255.255.0
+no shut
+
+--------------------------
+externMail-DMZ
+--------------------------
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 192.168.60.2
+	netmask 255.255.255.0
+	gateway 192.168.60.254
+	up echo nameserver 192.168.60.254 > /etc/resolv.conf
+
+--------------------------
+DNS-DMZ
+--------------------------
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 192.168.60.3
+	netmask 255.255.255.0
+	gateway 192.168.60.254
+	up echo nameserver 192.168.60.254 > /etc/resolv.conf
+
+--------------------------
+WEB-DMZ
+--------------------------
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 192.168.60.4
+	netmask 255.255.255.0
+	gateway 192.168.60.254
+	up echo nameserver 192.168.60.254 > /etc/resolv.conf
