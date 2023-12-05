@@ -143,9 +143,9 @@ en
 conf t
 hostname SW-LAN-02
 
-vlan10
+vlan 10
 name PROD
-vlan20
+vlan 20
 name IT
 vlan 30
 name INVIT
