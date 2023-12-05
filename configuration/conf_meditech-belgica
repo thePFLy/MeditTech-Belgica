@@ -64,6 +64,8 @@ network 10.0.0.0 0.0.0.3 area 0
 --------------------------
 SW-LAN-01
 --------------------------
+en
+conf t
 hostname SW-LAN-01
 
 vlan 10
@@ -137,6 +139,8 @@ iface eth0 inet dhcp
 --------------------------
 SW-LAN-02
 --------------------------
+en
+conf t
 hostname SW-LAN-02
 
 vlan10
