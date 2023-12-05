@@ -75,21 +75,21 @@ name IT
 vlan 30
 name INVIT
 
-int range0/1-3
+int range g0/1-3
 switchport mode access
 switchport access vlan 30
 exit
 
-int range1/0-3
+int range g1/0-3
 switchport mode access
 switchport access vlan 30
 exit
 
-int range 2/0-3
+int range g2/0-3
 switchport mode access
 switchport access vlan 30
 
-int range 3/0-3
+int range g3/0-3
 switchport mode access
 switchport access vlan 30
 
@@ -150,19 +150,19 @@ name IT
 vlan 30
 name INVIT
 
-int range 0/1-3
+int range g0/1-3
 switchport mode access
 switchport access vlan 30
 
-int range 1/0-3
+int range g1/0-3
 switchport mode access
 switchport access vlan 30
 
-int range 2/0-3
+int range g2/0-3
 switchport mode access
 switchport access vlan 30
 
-int range 3/0-3
+int range g3/0-3
 switchport mode access
 switchport access vlan 30
 
