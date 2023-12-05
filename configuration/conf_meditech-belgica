@@ -61,6 +61,8 @@ network 10.1.20.0 0.0.0.255 area 0
 network 10.1.30.0 0.0.0.255 area 0
 network 10.0.0.0 0.0.0.3 area 0
 
+do copy run start
+
 --------------------------
 SW-LAN-01
 --------------------------
@@ -111,6 +113,8 @@ description reception-PROD
 int g0/0
 switchport trunk encapsulation dot1Q
 switchport mode trunk
+
+do copy run start
 
 --------------------------
 admin-LAN-01
@@ -180,6 +184,8 @@ int g0/0
 switchport trunk encapsulation dot1q
 switchport mode trunk
 
+do copy run start
+
 --------------------------
 admin-LAN-02
 --------------------------
@@ -197,27 +203,35 @@ iface eth0 inet dhcp
 	hostname secretary-LAN-02
 
 ==========================
-TRUSTED [172.16.0.0/24]
+TRUSTED [10.10.1.0/24]
 ==========================
 
 --------------------------
 R1-TRUSTED
 --------------------------
-en 
-conf t 
-hostname R1-TRUSTED 
+en
+conf t
+hostname R1-TRUSTED
 
 int g0/0
-ip add 172.16.0.2 255.255.255.252
+ip add 10.10.0.2 255.255.255.252
 no shut
 
 int g0/1
-ip add 172.16.0.15 255.255.255.252
+ip add 10.10.0.9 255.255.255.248
 no shut
 
 int g0/2
-ip add 172.16.0.22 255.255.255.252
+ip add 10.10.1.1 255.255.255.0
 no shut
+exit
+
+router ospf 1
+network 10.10.0.8 0.0.0.7 area 0
+network 10.10.1.0 0.0.0.255 area 0
+network 10.10.0.0 0.0.0.3 area 0
+
+do copy run start
 
 --------------------------
 internFile-TRUSTED
@@ -225,10 +239,10 @@ internFile-TRUSTED
 # Static config for eth0
 auto eth0
 iface eth0 inet static
-	address 172.16.0.09
+	address 10.10.0.12
 	netmask 255.255.255.248
-	gateway 172.16.0.15
-	up echo nameserver 172.16.0.15 > /etc/resolv.conf
+	gateway 10.10.0.9
+	up echo nameserver 10.10.0.9 > /etc/resolv.conf
 
 --------------------------
 SW-TRUSTED-01
@@ -246,10 +260,10 @@ DHCP-TRUSTED
 # Static config for eth0
 auto eth0
 iface eth0 inet static
-	address 172.16.0.17
-	netmask 255.255.255.248
-	gateway 172.16.0.23
-	up echo nameserver  172.16.0.23 > /etc/resolv.conf
+	address 10.10.1.5
+	netmask 255.255.255.0
+	gateway 10.10.1.1
+	up echo nameserver  10.10.1.1 > /etc/resolv.conf
 
 --------------------------
 DNS-TRUSTED
@@ -257,10 +271,10 @@ DNS-TRUSTED
 # Static config for eth0
 auto eth0
 iface eth0 inet static
-	address 172.16.0.18
-	netmask 255.255.255.248
-	gateway 172.16.0.23
-	up echo nameserver  172.16.0.23 > /etc/resolv.conf
+	address 10.10.1.6
+	netmask 255.255.255.0
+	gateway 10.10.1.1
+	up echo nameserver  10.10.1.1 > /etc/resolv.conf
 
 --------------------------
 WEB-TRUSTED
@@ -268,13 +282,13 @@ WEB-TRUSTED
 # Static config for eth0
 auto eth0
 iface eth0 inet static
-	address 172.16.0.19
-	netmask 255.255.255.248
-	gateway 172.16.0.23
-	up echo nameserver  172.16.0.23 > /etc/resolv.conf
+	address 10.10.1.7
+	netmask 255.255.255.0
+	gateway 10.10.1.1
+	up echo nameserver  10.10.1.1> /etc/resolv.conf
 
 ==========================
-WAN [192.168.1.0/24]
+WAN [10.20.0.0/24]
 ==========================
 
 --------------------------
@@ -288,10 +302,10 @@ externFile-DMZ
 # Static config for eth0
 auto eth0
 iface eth0 inet static
-	address 192.168.40.2
+	address 10.20.40.2
 	netmask 255.255.255.0
-	gateway 192.168.40.254
-	up echo nameserver 192.168.40.254 > /etc/resolv.conf
+	gateway 10.20.40.1
+	up echo nameserver 10.20.40.1 > /etc/resolv.conf
 
 --------------------------
 Wifi-DMZ
@@ -301,8 +315,10 @@ conf t
 hostname WIFI-DMZ 
 
 int g0/0
-ip add 192.168.50.2 255.255.255.0
+ip add 10.20.50.2 255.255.255.0
 no shut
+
+do copy run start
 
 --------------------------
 externMail-DMZ
@@ -310,10 +326,10 @@ externMail-DMZ
 # Static config for eth0
 auto eth0
 iface eth0 inet static
-	address 192.168.60.2
+	address 10.20.60.2
 	netmask 255.255.255.0
-	gateway 192.168.60.254
-	up echo nameserver 192.168.60.254 > /etc/resolv.conf
+	gateway 10.20.60.1
+	up echo nameserver 10.20.60.1 > /etc/resolv.conf
 
 --------------------------
 DNS-DMZ
@@ -321,10 +337,11 @@ DNS-DMZ
 # Static config for eth0
 auto eth0
 iface eth0 inet static
-	address 192.168.60.3
+	address 10.20.60.3
 	netmask 255.255.255.0
-	gateway 192.168.60.254
-	up echo nameserver 192.168.60.254 > /etc/resolv.conf
+	gateway 10.20.60.1
+	up echo nameserver 10.20.60.1 > /etc/resolv.conf
+
 
 --------------------------
 WEB-DMZ
@@ -332,7 +349,7 @@ WEB-DMZ
 # Static config for eth0
 auto eth0
 iface eth0 inet static
-	address 192.168.60.4
+	address 10.20.60.4
 	netmask 255.255.255.0
-	gateway 192.168.60.254
-	up echo nameserver 192.168.60.254 > /etc/resolv.conf
+	gateway 10.20.60.1
+	up echo nameserver 10.20.60.1 > /etc/resolv.conf
