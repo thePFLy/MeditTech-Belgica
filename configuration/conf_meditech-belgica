@@ -18,7 +18,10 @@ LAN [10.1.0.0/24]
 SWL3-LAN-01
 --------------------------
 en 
-conf t 
+conf t
+line console 0
+logging synch
+exit
 hostname SWL3-LAN 
 
 int g0/0
@@ -68,6 +71,9 @@ SW-LAN-01
 --------------------------
 en
 conf t
+line console 0
+logging synch
+exit
 hostname SW-LAN-01
 
 vlan 10
@@ -145,6 +151,9 @@ SW-LAN-02
 --------------------------
 en
 conf t
+line console 0
+logging synch
+exit
 hostname SW-LAN-02
 
 vlan 10
