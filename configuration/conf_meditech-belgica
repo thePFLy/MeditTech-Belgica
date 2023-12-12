@@ -5,6 +5,17 @@ FIREWALL
 --------------------------
 FW01
 --------------------------
+ospf:
+enable ospf routing
+enable log adjancy 
+router id 1.1.1.1
+default area 0.0.0.0
+enable redistribuate connected network
+
+interfaces: area 0.0.0.0
+ignore MTU
+
+set password 
 
 --------------------------
 FW02
@@ -322,9 +333,10 @@ iface eth0 inet static
 --------------------------
 Wifi-DMZ
 --------------------------
-en 
-conf t 
-hostname WIFI-DMZ 
+# DHCP config for eth0
+auto eth0
+iface eth0 inet dhcp
+	hostname ubuntu-gui-2
 
 int g0/0
 ip add 10.20.50.2 255.255.255.0
