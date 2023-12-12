@@ -5,7 +5,8 @@ FIREWALL
 --------------------------
 FW01
 --------------------------
-ospf:
+|| OSPF ||
+install package FRR
 enable ospf routing
 enable log adjancy 
 router id 1.1.1.1
@@ -17,9 +18,28 @@ ignore MTU
 
 set password 
 
+|| OPENVPN ||
+https://www.it-connect.fr/pfsense-configurer-un-vpn-ssl-client-to-site-avec-openvpn/
+
+
 --------------------------
 FW02
 --------------------------
+|| OSPF ||
+install package FRR
+enable ospf routing
+enable log adjancy 
+router id 4.4.4.4
+default area 0.0.0.0
+enable redistribuate connected network
+
+interfaces: area 0.0.0.0
+ignore MTU
+
+set password 
+
+|| OPENVPN ||
+https://www.it-connect.fr/pfsense-configurer-un-vpn-ssl-client-to-site-avec-openvpn/
 
 ==========================
 LAN [10.1.0.0/24]
